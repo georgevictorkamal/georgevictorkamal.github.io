@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun, Code2 } from 'lucide-react';
+import { Menu, X, Moon, Sun, Code2, Download } from 'lucide-react';
 import { Link } from 'wouter';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -100,6 +100,25 @@ export default function Navigation() {
 
           {}
           <div className="w-px h-6 bg-border mx-2"></div>
+
+          {/* Download CV */}
+          <a
+            href="/GeorgeVictor.pdf"
+            download="George_Victor_Kamal_CV.pdf"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-foreground/60 hover:text-primary transition-colors rounded-lg hover:bg-secondary/50"
+          >
+            <Download size={15} />
+            CV
+          </a>
+
+          {/* Hire Me */}
+          <a
+            href="#contact"
+            onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
+            className="flex items-center gap-1.5 px-4 py-1.5 bg-primary text-primary-foreground text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all duration-300 shadow-sm shadow-primary/20"
+          >
+            Hire Me
+          </a>
 
           {}
           <button

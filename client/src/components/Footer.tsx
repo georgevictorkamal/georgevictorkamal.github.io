@@ -29,11 +29,11 @@ export default function Footer() {
               </div>
               <div>
                 <span className="font-bold text-sm">George Victor Kamal</span>
-                <p className="text-[10px] text-foreground/40 leading-tight">Full Stack Software Engineer</p>
+                <p className="text-[10px] text-foreground/40 leading-tight">Senior Full-Stack Software Engineer</p>
               </div>
             </div>
             <p className="text-foreground/50 text-sm leading-relaxed max-w-sm">
-              Crafting elegant solutions with .NET Core, Angular, and Flutter — delivering scalable applications that serve thousands of users across web and mobile platforms.
+              Building enterprise systems that scale — .NET Core, Angular, Flutter, Azure. 10,000+ users served. 40% faster APIs. Open to senior & lead engineering roles.
             </p>
           </div>
 
@@ -56,6 +56,16 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href="/GeorgeVictor.pdf"
+                  download="George_Victor_Kamal_CV.pdf"
+                  className="text-sm text-primary/70 hover:text-primary transition-colors flex items-center gap-1 group font-medium"
+                >
+                  Download CV
+                  <ArrowUpRight size={12} className="opacity-60 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </li>
             </ul>
           </div>
 

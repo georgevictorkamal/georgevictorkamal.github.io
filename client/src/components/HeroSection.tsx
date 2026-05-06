@@ -196,10 +196,12 @@ export default function HeroSection() {
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div className="w-52 h-52 rounded-3xl bg-gradient-to-br from-primary via-primary/80 to-primary/60 flex items-center justify-center shadow-2xl shadow-primary/30 animate-pulse-glow">
-                <span className="text-primary-foreground font-bold text-7xl tracking-tighter select-none" style={{ fontFamily: 'Inter, sans-serif' }}>
-                  GV
-                </span>
+              <div className="w-56 h-56 rounded-3xl overflow-hidden shadow-2xl shadow-primary/30 border-2 border-primary/20 animate-pulse-glow">
+                <img
+                  src={`${import.meta.env.BASE_URL}profile.png`}
+                  alt="George Victor Kamal"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               {}
               <motion.div
@@ -216,7 +218,7 @@ export default function HeroSection() {
                 transition={{ duration: 3, repeat: Infinity, delay: 1 }}
               >
                 <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                Full Stack
+                Open to Roles
               </motion.div>
             </motion.div>
           </motion.div>

@@ -114,20 +114,19 @@ export default function ProjectsSection() {
 
   
   const imageBadgeColors: Record<string, string> = {
-    'Full Stack': 'bg-indigo-600/90 text-white backdrop-blur-md border border-indigo-500/50 shadow-sm',
+    'Full Stack': 'bg-teal-600/90 text-white backdrop-blur-md border border-teal-500/50 shadow-sm',
     'Backend': 'bg-emerald-600/90 text-white backdrop-blur-md border border-emerald-500/50 shadow-sm',
-    'Frontend': 'bg-violet-600/90 text-white backdrop-blur-md border border-violet-500/50 shadow-sm',
-    'Mobile': 'bg-sky-600/90 text-white backdrop-blur-md border border-sky-500/50 shadow-sm',
-    'Power Platform': 'bg-blue-600/90 text-white backdrop-blur-md border border-blue-500/50 shadow-sm',
+    'Frontend': 'bg-cyan-600/90 text-white backdrop-blur-md border border-cyan-500/50 shadow-sm',
+    'Mobile': 'bg-teal-500/90 text-white backdrop-blur-md border border-teal-400/50 shadow-sm',
+    'Power Platform': 'bg-emerald-700/90 text-white backdrop-blur-md border border-emerald-600/50 shadow-sm',
   };
 
-  
   const techBadgeColors: Record<string, string> = {
-    'Full Stack': 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20',
+    'Full Stack': 'bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20',
     'Backend': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20',
-    'Frontend': 'bg-violet-500/10 text-violet-700 dark:text-violet-300 border border-violet-500/20',
-    'Mobile': 'bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20',
-    'Power Platform': 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20',
+    'Frontend': 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20',
+    'Mobile': 'bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20',
+    'Power Platform': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20',
   };
 
   return (
@@ -286,10 +285,24 @@ export default function ProjectsSection() {
                       <h3 className="text-lg font-semibold mb-1.5 tracking-normal">{project.title}</h3>
 
                       {project.shortDescription && (
-                        <p className="text-foreground/50 text-sm mb-4 flex-grow leading-relaxed line-clamp-2">
+                        <p className="text-foreground/50 text-sm mb-3 flex-grow leading-relaxed line-clamp-2">
                           {project.shortDescription}
                         </p>
                       )}
+
+                      {/* Outcome highlight — first metric */}
+                      {project.outcomes && (() => {
+                        try {
+                          const outcomes: string[] = JSON.parse(project.outcomes);
+                          if (outcomes.length > 0) return (
+                            <div className="flex items-center gap-1.5 mb-3 px-2.5 py-1.5 bg-primary/8 rounded-lg border border-primary/15">
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                              <span className="text-xs text-primary/80 font-medium leading-tight">{outcomes[0]}</span>
+                            </div>
+                          );
+                        } catch { return null; }
+                        return null;
+                      })()}
 
                       {}
                       {techs.length > 0 && (() => {
