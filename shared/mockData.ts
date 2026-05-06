@@ -176,11 +176,12 @@ export const mockExperiences = [
         endDate: null,
         description: 'Led full-stack development initiatives across multiple enterprise applications, utilizing .NET Core, Angular, Flutter, and cloud platforms to deliver scalable solutions for business-critical operations.',
         achievements: JSON.stringify([
-            'Collaborated with cross-functional teams to design system architecture and implement user-centric applications serving 10,000+ users',
-            'Implemented agile methodologies, code reviews, unit testing, and CI/CD pipelines to ensure high-quality software delivery and maintain 99.9% system uptime',
-            'Optimized application performance and database queries, achieving significant improvements in response times and UX across web and mobile platforms',
-            'Mentored junior developers and conducted technical knowledge sharing sessions on modern development frameworks and cloud technologies',
-            'Reduced processing times by 25% and eliminated 95% manual errors through innovative full-stack solutions'
+            'Reduced average API response times by 40% through Redis caching and microservice refactoring, directly improving user satisfaction across web & mobile portals',
+            'Implemented end-to-end CI/CD pipelines and unit/integration testing suites, cutting deployment incidents by 70% and accelerating release cadence from weekly to twice-weekly',
+            'Led architecture design, API development, and cross-functional delivery for the Tender Management Platform processing 200+ monthly tenders',
+            'Built the Grifols DonorHUB backend API, Angular portal, and Flutter app serving 10,000+ donors with OAuth2 authentication for HIPAA compliance',
+            'Automated 7 enterprise workflows on Microsoft Power Platform — travel approvals, fire safety compliance across 50+ facilities, price change authorisation, and expense management',
+            'Mentored 2 junior engineers and ran weekly clean architecture and testing knowledge-sharing sessions, improving team code quality and reducing peer review cycles'
         ]),
         current: 1,
         order: 1,

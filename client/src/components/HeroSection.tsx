@@ -28,10 +28,10 @@ export default function HeroSection() {
   ];
 
   const stats = [
-    { value: '3+', label: 'Years Experience' },
-    { value: '10K+', label: 'Users Served' },
-    { value: '15+', label: 'Projects Delivered' },
-    { value: '99.9%', label: 'System Uptime' },
+    { value: '40%', label: 'Faster API Response' },
+    { value: '10K+', label: 'Daily Active Users' },
+    { value: '70%', label: 'Fewer Deploy Incidents' },
+    { value: '200+', label: 'Monthly Tenders Processed' },
   ];
 
   const containerVariants = {
@@ -96,7 +96,7 @@ export default function HeroSection() {
 
             {}
             <motion.h2 variants={itemVariants} className="text-xl md:text-2xl font-semibold text-foreground/60 mb-6 flex items-center gap-3 flex-wrap">
-              <span>Full Stack Software Engineer</span>
+              <span>Senior Full-Stack Software Engineer</span>
               <span className="hidden sm:inline text-foreground/30">•</span>
               <span className="text-primary/80 text-lg">.NET Core · Angular · Flutter</span>
             </motion.h2>
@@ -106,10 +106,13 @@ export default function HeroSection() {
               variants={itemVariants}
               className="text-lg text-foreground/55 mb-8 leading-relaxed max-w-2xl"
             >
-              Passionate engineer with <strong className="text-foreground/80">3+ years</strong> designing scalable web
-              and mobile applications. Proven track record of <strong className="text-foreground/80">reducing processing
-                times by 25%</strong> and <strong className="text-foreground/80">eliminating 95% manual errors</strong> through
-              innovative full-stack solutions. Specialized in enterprise architecture, cloud platforms, and mentoring teams.
+              I build the backend that doesn't break at 2 AM. Over{' '}
+              <strong className="text-foreground/80">3+ years at ITE Corp</strong>, I've shipped enterprise
+              systems now serving <strong className="text-foreground/80">10,000+ daily users</strong> — cutting
+              API response times by <strong className="text-foreground/80">40%</strong>, slashing deployment
+              incidents by <strong className="text-foreground/80">70%</strong>, and processing{' '}
+              <strong className="text-foreground/80">200+ monthly tenders</strong> across healthcare,
+              procurement, and HR-tech.
             </motion.p>
 
             {}
