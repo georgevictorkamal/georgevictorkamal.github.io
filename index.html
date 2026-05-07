@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Suppress Vite HMR deprecated unload event listener warning -->
+  <script>
+    // Store the original console.warn before anything else can modify it
+    const _originalConsoleWarn = console.warn;
+
+    // Create a wrapper that filters the deprecation warning
+    const _filteringWarn = function () {
+      const msg = String(arguments[0] || '');
+      // Filter out Vite HMR unload event deprecation warning
+      if (msg.includes('Unload event listeners are deprecated')) {
+        return;
+      }
+      // Call the original warn
+      return _originalConsoleWarn.apply(this, arguments);
+    };
+
+    // Replace console.warn
+    console.warn = _filteringWarn;
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <!-- SEO Meta Tags -->
+  <title>George Victor Kamal — Full Stack Software Engineer | .NET Core · Angular · Flutter</title>
+  <meta name="description"
+    content="Senior Full-Stack Engineer in Cairo — .NET Core, Angular, Flutter. Built systems serving 10K+ users. Cut API response times by 40% and deployment incidents by 70%. Azure AI Engineer & Power Platform certified." />
+  <meta name="keywords"
+    content="Full Stack Developer, Software Engineer, .NET Core, ASP.NET, Angular, Flutter, C#, TypeScript, Microsoft Azure, SharePoint, PowerApps, Enterprise Development, Cairo, Egypt" />
+  <meta name="author" content="George Victor Kamal" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="theme-color" content="#1D9E75" />
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://georgevictorkamal.github.io/" />
+  <meta property="og:title" content="George Victor Kamal — Full Stack Software Engineer" />
+  <meta property="og:description"
+    content="Senior Full-Stack Engineer — .NET Core, Angular, Flutter. 10K+ users served. 40% faster APIs. 70% fewer deployments incidents. Azure AI Engineer & Power Platform certified. Cairo, Egypt." />
+  <meta property="og:image" content="https://georgevictorkamal.github.io/og-image.jpg" />
+  <meta property="og:site_name" content="George Victor Kamal — Portfolio" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="George Victor Kamal — Full Stack Software Engineer" />
+  <meta name="twitter:description"
+    content="Senior Full-Stack Engineer — .NET Core · Angular · Flutter. 10K+ users, 40% faster APIs, Azure certified. Cairo, Egypt." />
+  <meta name="twitter:image" content="https://georgevictorkamal.github.io/og-image.jpg" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://georgevictorkamal.github.io/" />
+
+  <!-- Sitemap and RSS Feed -->
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+  <link rel="alternate icon" href="/favicon.ico?v=2" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
+
+  <!-- JSON-LD Schema for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Person",
+      "name": "George Victor Kamal",
+      "url": "https://georgevictorkamal.github.io",
+      "image": "https://georgevictorkamal.github.io/profile-image.jpg",
+      "sameAs": [
+        "https://www.linkedin.com/in/georgevictorkamal/",
+        "https://github.com/georgevictorkamal",
+        "https://behance.net/georgevictorkamal"
+      ],
+      "jobTitle": "Senior Full Stack Software Engineer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Information Technology of Egypt Corporation"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Modern Academy"
+      },
+      "knowsAbout": [
+        "C#",
+        ".NET Core",
+        "ASP.NET Web API",
+        "Angular",
+        "Flutter",
+        "TypeScript",
+        "Microsoft Azure",
+        "SharePoint",
+        "PowerApps",
+        "Power Automate",
+        "SQL Server",
+        "Oracle Database",
+        "Entity Framework",
+        "Docker",
+        "CI/CD"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Cairo",
+        "addressCountry": "Egypt"
+      },
+      "email": "georgevictorkamal@gmail.com",
+      "telephone": "+201211388499"
+    }
+    </script>
+
+  <!-- Preconnect to External Domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/index-BHe4kO8f.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-COd4auuD.js">
+  <link rel="modulepreload" crossorigin href="/assets/ui-CNqriUm1.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-CY6MurRy.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>

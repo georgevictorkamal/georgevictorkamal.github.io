@@ -1,0 +1,41 @@
+<svg width="800" height="420" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" fill="#1A0A0A"/>
+  <!-- Subtle grid -->
+  <line x1="0" y1="60" x2="800" y2="60" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="120" x2="800" y2="120" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="180" x2="800" y2="180" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="240" x2="800" y2="240" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="360" x2="800" y2="360" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="100" y1="0" x2="100" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="200" y1="0" x2="200" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="300" y1="0" x2="300" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="400" y1="0" x2="400" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="500" y1="0" x2="500" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="600" y1="0" x2="600" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="700" y1="0" x2="700" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <!-- Accent circle bg -->
+  <circle cx="580" cy="210" r="260" fill="#E24B4A" opacity="0.06"/>
+  <circle cx="580" cy="210" r="180" fill="#E24B4A" opacity="0.06"/>
+  <circle cx="580" cy="210" r="100" fill="#E24B4A" opacity="0.08"/>
+  <!-- Icon circle -->
+  <circle cx="580" cy="210" r="72" fill="#E24B4A" opacity="0.15"/>
+  <circle cx="580" cy="210" r="60" fill="#E24B4A" opacity="0.2"/>
+  <!-- Icon (scaled and centered at 580,210) -->
+  <g transform="translate(556,186) scale(2)">
+    <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" fill="#E24B4A"/>
+  </g>
+  <!-- Accent left bar -->
+  <rect x="0" y="0" width="5" height="420" fill="#E24B4A"/>
+  <!-- Category pill -->
+  <rect x="52" y="60" width="208" height="28" rx="14" fill="#E24B4A" opacity="0.18"/>
+  <text x="156" y="79" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" fill="#E24B4A" text-anchor="middle" font-weight="600">Full Stack · Healthcare</text>
+  <!-- Title -->
+  <text x="52" y="145" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="36" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Grifols DonorHUB</text>
+  <!-- Metric -->
+  <rect x="52" y="170" width="213" height="30" rx="8" fill="#1D9E75" opacity="0.2"/>
+  <text x="158.5" y="191" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13" fill="#1D9E75" text-anchor="middle" font-weight="600">✓ 10,000+ donors served</text>
+  <!-- Bottom bar -->
+  <rect x="0" y="395" width="800" height="25" fill="#E24B4A" opacity="0.12"/>
+  <text x="52" y="412" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" fill="#E24B4A" opacity="0.8">georgevictorkamal.github.io</text>
+</svg>

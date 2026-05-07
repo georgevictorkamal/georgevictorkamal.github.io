@@ -1,0 +1,17 @@
+# Allow search engines to crawl the site
+User-agent: *
+Allow: /
+Disallow: /404
+
+# Specific search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemaps
+Sitemap: https://georgevictorkamal.github.io/sitemap.xml
+
+# Crawl delay to prevent overwhelming the server
+Crawl-delay: 1
