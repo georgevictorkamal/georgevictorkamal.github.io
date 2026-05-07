@@ -35,7 +35,7 @@ export default function Home() {
 function AIChatWrapper() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<any[]>([
-    { role: 'assistant', content: "👋 Hey there! I'm George's AI Twin — ask me anything about my projects, tech stack, experience, or certifications. I know it all!" }
+    { role: 'assistant', content: "👋 Hi! I'm George's AI Twin — ask me anything about my projects, tech stack, experience, certifications, or availability. I'll answer as George would." }
   ]);
 
   const chatMutation = trpc.ai.chat.useMutation({
@@ -45,7 +45,7 @@ function AIChatWrapper() {
     onError: (error) => {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: `⚠️ ${error.message || "I'm having trouble connecting right now. Please try again or use the contact form below to reach George directly!"}`
+        content: `⚠️ ${error.message || "I'm having trouble connecting right now. Please reach out via the contact form or email georgevictorkamal@gmail.com directly!"}`
       }]);
     }
   });
@@ -64,23 +64,27 @@ function AIChatWrapper() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="absolute bottom-20 right-0 w-[90vw] sm:w-[400px] shadow-2xl overflow-hidden rounded-2xl border bg-card/95 backdrop-blur-xl"
+            className="absolute bottom-20 right-0 w-[92vw] sm:w-[420px] shadow-2xl overflow-hidden rounded-2xl border border-primary/20 bg-card/98 backdrop-blur-xl"
           >
+            {/* Chat header */}
             <div className="bg-primary p-4 text-primary-foreground flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="size-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <Sparkles size={16} />
+              <div className="flex items-center gap-3">
+                <div className="size-9 rounded-full bg-white/20 flex items-center justify-center overflow-hidden border border-white/30">
+                  <img src="/profile.png" alt="George" className="w-full h-full object-cover object-top" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold">George's AI Twin</h3>
-                  <p className="text-[10px] opacity-70">Powered by Gemini 2.5 Flash</p>
+                  <div className="flex items-center gap-1.5 text-[10px] opacity-80">
+                    <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block animate-pulse"></span>
+                    Online — Ask me anything
+                  </div>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-1.5 hover:bg-white/15 rounded-lg transition-colors"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
             <AIChatBox
@@ -88,25 +92,30 @@ function AIChatWrapper() {
               onSendMessage={handleSend}
               isLoading={chatMutation.isPending}
               className="border-none rounded-none shadow-none"
-              height="450px"
-              placeholder="Ask about my projects or skills..."
+              height="460px"
+              placeholder="Ask about projects, stack, availability..."
               suggestedPrompts={[
-                "What's your tech stack?",
-                "Tell me about the Grifols-DonorHUB project",
-                "What certifications do you have?",
-                "Are you available for hire?"
+                "What's your core tech stack?",
+                "Tell me about DonorHUB",
+                "What certifications do you hold?",
+                "Are you available for hire?",
+                "What's your biggest technical achievement?",
+                "How do you approach system architecture?",
               ]}
             />
           </motion.div>
         )}
       </AnimatePresence>
-      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+      <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}>
         <Button
           size="lg"
           onClick={() => setIsOpen(!isOpen)}
-          className="size-14 rounded-full shadow-2xl shadow-primary/40 p-0"
+          className="size-14 rounded-full shadow-2xl shadow-primary/40 p-0 relative"
         >
-          {isOpen ? <X size={24} /> : <Sparkles size={24} />}
+          {isOpen ? <X size={22} /> : <Sparkles size={22} />}
+          {!isOpen && (
+            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-background rounded-full animate-pulse" />
+          )}
         </Button>
       </motion.div>
     </div>
