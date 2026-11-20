@@ -1,71 +1,65 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, Download, MapPin, Sparkles, Palette } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import {
+  ArrowRight,
+  ArrowDown,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Palette,
+  Phone,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 
 export default function HeroSection() {
-  const cvUrl = `${import.meta.env.BASE_URL}GeorgeVictor.pdf`;
+  const cvUrl = `${import.meta.env.BASE_URL}George_Victor_Kamal_CV.pdf`;
+  const profileUrl = `${import.meta.env.BASE_URL}profile.png`;
+
   const socialLinks = [
-    {
-      icon: Linkedin,
-      href: 'https://linkedin.com/in/georgevictorkamal',
-      label: 'LinkedIn',
-    },
-    {
-      icon: Github,
-      href: 'https://github.com/georgevictorkamal',
-      label: 'GitHub',
-    },
-    {
-      icon: Palette,
-      href: 'https://behance.net/georgevictorkamal',
-      label: 'Behance',
-    },
-    {
-      icon: Mail,
-      href: 'mailto:georgevictorkamal@gmail.com',
-      label: 'Email',
-    },
+    { icon: Linkedin, href: 'https://linkedin.com/in/georgevictorkamal', label: 'LinkedIn' },
+    { icon: Github, href: 'https://github.com/georgevictorkamal', label: 'GitHub' },
+    { icon: Palette, href: 'https://behance.net/georgevictorkamal', label: 'Behance' },
+    { icon: Mail, href: 'mailto:georgevictorkamal@gmail.com', label: 'Email' },
   ];
 
-  const stats = [
-    { value: '40%', label: 'Faster API Response' },
-    { value: '10K+', label: 'Daily Active Users' },
-    { value: '70%', label: 'Fewer Deploy Incidents' },
-    { value: '200+', label: 'Monthly Tenders Processed' },
+  const telemetry = [
+    { value: '4+ Yrs', label: 'Enterprise' },
+    { value: '13', label: 'Shipped' },
+    { value: '99.9%', label: 'Uptime' },
   ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.12, delayChildren: 0.08 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center pt-8 pb-20 relative overflow-hidden">
-      {}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-gradient-to-br from-primary/15 to-transparent rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 left-10 w-[600px] h-[600px] bg-gradient-to-tr from-primary/8 via-transparent to-transparent rounded-full blur-3xl animate-float-delayed"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/5 to-transparent rounded-full blur-3xl"></div>
-        {}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-          backgroundSize: '32px 32px'
-        }}></div>
+    <section id="home" className="relative overflow-hidden pb-16 pt-10 md:pb-24 md:pt-16">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/15 via-accent-emerald/10 to-transparent blur-3xl" />
+        <div className="absolute right-0 top-1/3 h-[380px] w-[380px] rounded-full bg-accent-mint/5 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
       </div>
 
       <motion.div
@@ -74,110 +68,123 @@ export default function HeroSection() {
         initial="hidden"
         animate="visible"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {}
-          <div className="lg:col-span-7">
-            {}
-            <motion.div variants={itemVariants} className="mb-6">
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold border border-primary/20">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+          <div className="flex flex-col gap-5 lg:col-span-7">
+            <motion.div variants={itemVariants}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent-emerald/25 bg-accent-emerald/10 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-accent-emerald">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent-emerald opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-full bg-accent-emerald" />
                 </span>
-                Available for opportunities
+                Available for Senior / Lead Roles
               </span>
             </motion.div>
 
-            {}
-            <motion.h1 variants={itemVariants} className="mb-4 text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-              Hi, I'm{' '}
-              <span className="gradient-text">George Victor</span>
+            <motion.h1 variants={itemVariants} className="max-w-3xl text-balance">
+              Hi, I'm <span className="gradient-text">George Victor</span>
             </motion.h1>
 
-            {}
-            <motion.h2 variants={itemVariants} className="text-xl md:text-2xl font-semibold text-foreground/60 mb-6 flex items-center gap-3 flex-wrap">
-              <span>Senior Full-Stack Software Engineer</span>
-              <span className="hidden sm:inline text-foreground/30">•</span>
-              <span className="text-primary/80 text-lg">.NET Core · Angular · Flutter</span>
-            </motion.h2>
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-foreground/60 md:text-sm"
+            >
+              <span className="font-semibold text-primary">Senior Full-Stack Software Engineer</span>
+              <span className="text-foreground/25">•</span>
+              <span>.NET Core</span>
+              <span className="text-foreground/25">•</span>
+              <span>Angular</span>
+              <span className="text-foreground/25">•</span>
+              <span>Flutter</span>
+              <span className="text-foreground/25">•</span>
+              <span className="font-semibold text-accent-mint">Azure &amp; Cloud Architecture</span>
+            </motion.div>
 
-            {}
             <motion.p
               variants={itemVariants}
-              className="text-lg text-foreground/55 mb-8 leading-relaxed max-w-2xl"
+              className="max-w-2xl text-base leading-relaxed text-foreground/60 md:text-lg"
             >
               I build the backend that doesn't break at 2 AM. Over{' '}
-              <strong className="text-foreground/80">3+ years at ITE Corp</strong>, I've shipped enterprise
-              systems now serving <strong className="text-foreground/80">10,000+ daily users</strong> — cutting
-              API response times by <strong className="text-foreground/80">40%</strong>, slashing deployment
-              incidents by <strong className="text-foreground/80">70%</strong>, and processing{' '}
-              <strong className="text-foreground/80">200+ monthly tenders</strong> across healthcare,
-              procurement, and HR-tech.
+              <strong className="font-semibold text-foreground">4+ years at ITE Corp</strong>, I've shipped
+              enterprise systems now serving{' '}
+              <span className="font-semibold text-accent-mint">10,000+ users</span> — cutting API response
+              times by <strong className="font-semibold text-primary">40%</strong>, slashing deployment
+              incidents by <strong className="font-semibold text-accent-emerald">70%</strong>, and processing{' '}
+              <strong className="font-semibold text-foreground">200+ monthly tenders</strong> across
+              healthcare, procurement, and HR-tech.
             </motion.p>
 
-            {}
-            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 mb-8 text-foreground/55 text-sm">
-              <div className="flex items-center gap-1.5">
-                <MapPin size={16} className="text-primary" />
-                <span>Cairo, Egypt</span>
-              </div>
-              <span className="text-foreground/20">|</span>
-              <a href="mailto:georgevictorkamal@gmail.com" className="hover:text-primary transition-colors">
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] text-foreground/50"
+            >
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin size={14} className="text-primary" />
+                Cairo, Egypt
+              </span>
+              <span className="hidden text-foreground/20 sm:inline">•</span>
+              <a
+                href="mailto:georgevictorkamal@gmail.com"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-primary"
+              >
+                <Mail size={14} className="text-primary" />
                 georgevictorkamal@gmail.com
               </a>
-              <span className="text-foreground/20">|</span>
-              <a href="tel:+201211388499" className="hover:text-primary transition-colors">
+              <span className="hidden text-foreground/20 sm:inline">•</span>
+              <a
+                href="tel:+201211388499"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-accent-emerald"
+              >
+                <Phone size={14} className="text-accent-emerald" />
                 +20 12 11 388 499
               </a>
             </motion.div>
 
-            {}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 mb-10">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
-                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2.5 pt-1">
+              <a
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-primary"
               >
-                View My Work <ArrowRight className="ml-2" size={18} />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary/30 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                View My Work
+                <ArrowDown size={16} />
+              </a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-secondary"
               >
-                Get in Touch
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className="text-foreground/60 hover:text-primary transition-all duration-300"
-                asChild
-              >
-                <a href={cvUrl} download="George_Victor_Kamal_CV.pdf">
-                  <Download size={18} className="mr-2" /> Download CV
-                </a>
-              </Button>
+                <MessageSquare size={15} />
+                Get In Touch
+              </a>
+              <a href={cvUrl} download="George_Victor_Kamal_CV.pdf" className="btn-ghost">
+                <Download size={15} className="text-accent-mint" />
+                Download CV
+              </a>
             </motion.div>
 
-            {}
-            <motion.div variants={itemVariants} className="flex items-center gap-4">
-              <span className="text-foreground/40 text-sm">Connect:</span>
-              <div className="flex gap-2">
+            <motion.div variants={itemVariants} className="flex items-center gap-3 pt-1">
+              <span className="mono-label text-foreground/35">Connect:</span>
+              <div className="flex gap-1.5">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (
                     <motion.a
                       key={social.label}
                       href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2.5 bg-secondary/80 hover:bg-primary hover:text-primary-foreground rounded-xl transition-all duration-300 text-foreground/60 border border-transparent hover:border-primary/30"
-                      whileHover={{ scale: 1.1, y: -2 }}
+                      target={social.href.startsWith('http') ? '_blank' : undefined}
+                      rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="flex size-9 items-center justify-center rounded-full bg-secondary text-foreground/55 transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
+                      whileHover={{ y: -2, scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       title={social.label}
                     >
-                      <Icon size={18} />
+                      <Icon size={16} />
                     </motion.a>
                   );
                 })}
@@ -185,97 +192,56 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {}
           <motion.div
-            className="lg:col-span-5 hidden lg:flex flex-col items-center gap-8"
             variants={itemVariants}
+            className="flex justify-center lg:col-span-5 lg:justify-end"
           >
-            {}
-            <motion.div
-              className="relative"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <div className="w-56 h-56 rounded-3xl overflow-hidden shadow-2xl shadow-primary/30 border-2 border-primary/20 animate-pulse-glow">
-                <img
-                  src={`${import.meta.env.BASE_URL}profile.png`}
-                  alt="George Victor Kamal"
-                  className="w-full h-full object-cover object-top"
-                />
+            <div className="relative w-full max-w-[380px]">
+              <div className="absolute -inset-1 rounded-xl bg-gradient-to-tr from-primary/20 via-accent-mint/10 to-transparent blur-xl" />
+
+              <div className="relative rounded-xl border border-border bg-surface-slate p-2 shadow-2xl">
+                <div className="absolute -top-3 right-4 z-20 inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-container-highest px-2.5 py-1 text-accent-electric shadow-lg">
+                  <ShieldCheck size={13} />
+                  <span className="mono-label">Azure Certified</span>
+                </div>
+
+                <div className="relative aspect-square overflow-hidden rounded-lg bg-secondary">
+                  <img
+                    src={profileUrl}
+                    alt="George Victor Kamal — Senior Full-Stack Software Engineer"
+                    className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-80" />
+
+                  <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-lg border border-border-subtle bg-surface-glass px-3 py-2 backdrop-blur-md">
+                    <div className="flex items-center gap-2">
+                      <span className="size-2 rounded-full bg-accent-emerald animate-pulse" />
+                      <span className="text-xs font-semibold text-foreground">Open to Work</span>
+                    </div>
+                    <span className="mono-label text-accent-electric">Lead / Senior</span>
+                  </div>
+                </div>
+
+                <div className="mt-2 grid grid-cols-3 gap-2 rounded-lg bg-secondary/60 p-2 text-center font-mono">
+                  {telemetry.map((item) => (
+                    <div key={item.label} className="flex flex-col py-1">
+                      <span className="text-sm font-bold text-foreground">{item.value}</span>
+                      <span className="mono-label text-foreground/35">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              {}
-              <motion.div
-                className="absolute -top-4 -right-4 px-3 py-1.5 bg-card border border-border rounded-xl shadow-lg text-xs font-semibold flex items-center gap-1.5"
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-              >
+
+              <div className="absolute -bottom-4 -left-4 hidden items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 shadow-lg sm:flex">
                 <Sparkles size={14} className="text-amber-500" />
-                Azure Certified
-              </motion.div>
-              <motion.div
-                className="absolute -bottom-3 -left-4 px-3 py-1.5 bg-card border border-border rounded-xl shadow-lg text-xs font-semibold flex items-center gap-1.5"
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-              >
-                <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                Open to Roles
-              </motion.div>
-            </motion.div>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/60">
+                  Enterprise-grade delivery
+                </span>
+              </div>
+            </div>
           </motion.div>
         </div>
-
-        {}
-        <motion.div
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4"
-          variants={containerVariants}
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              variants={itemVariants}
-              className="text-center p-5 bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl hover:border-primary/30 transition-all duration-300 group"
-              whileHover={{ y: -4 }}
-            >
-              <div className="text-3xl md:text-4xl font-bold gradient-text stat-number mb-1">
-                {stat.value}
-              </div>
-              <div className="text-sm text-foreground/50 font-medium group-hover:text-foreground/70 transition-colors">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
       </motion.div>
-
-      {}
-      <motion.button
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1.5 group cursor-pointer bg-transparent border-none outline-none"
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-        onClick={() => document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' })}
-        aria-label="Scroll to explore"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <span className="text-[10px] text-foreground/30 uppercase tracking-widest font-medium group-hover:text-primary/60 transition-colors">
-          Explore
-        </span>
-        <motion.svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-foreground/25 group-hover:text-primary/60 transition-colors"
-        >
-          <path d="M7 13l5 5 5-5" />
-          <path d="M7 7l5 5 5-5" opacity="0.4" />
-        </motion.svg>
-      </motion.button>
     </section>
   );
 }

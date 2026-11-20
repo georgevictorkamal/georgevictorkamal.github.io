@@ -27,30 +27,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 
   <!-- SEO Meta Tags -->
-  <title>George Victor Kamal — Full Stack Software Engineer | .NET Core · Angular · Flutter</title>
+  <title>George Victor Kamal — Senior Full-Stack Software Engineer | .NET Core · Angular · Flutter</title>
   <meta name="description"
-    content="Senior Full-Stack Engineer in Cairo — .NET Core, Angular, Flutter. Built systems serving 10K+ users. Cut API response times by 40% and deployment incidents by 70%. Azure AI Engineer & Power Platform certified." />
+    content="Senior Full-Stack Software Engineer in Cairo — .NET Core, Angular, Flutter. Built systems serving 10K+ users. Cut API response times by 40% and deployment incidents by 70%. Azure AI Engineer & Power Platform certified." />
   <meta name="keywords"
-    content="Full Stack Developer, Software Engineer, .NET Core, ASP.NET, Angular, Flutter, C#, TypeScript, Microsoft Azure, SharePoint, PowerApps, Enterprise Development, Cairo, Egypt" />
+    content="Senior Full-Stack Software Engineer, Full Stack Developer, Software Engineer, .NET Core, ASP.NET, Angular, Flutter, C#, TypeScript, Microsoft Azure, SharePoint, PowerApps, Enterprise Development, Cairo, Egypt" />
   <meta name="author" content="George Victor Kamal" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta name="theme-color" content="#1D9E75" />
+  <meta name="theme-color" content="#f8fafc" />
+
+  <!-- Apply the saved or system theme before first paint to avoid a flash of the wrong mode -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme-preference');
+        var systemDark =
+          window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme =
+          stored === 'light' || stored === 'dark' ? stored : systemDark ? 'dark' : 'light';
+        var root = document.documentElement;
+        root.classList.toggle('dark', theme === 'dark');
+        root.style.colorScheme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#030712' : '#f8fafc');
+      } catch (error) {
+        // Theme detection is optional; the app falls back to the light palette.
+      }
+    })();
+  </script>
 
   <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://georgevictorkamal.github.io/" />
-  <meta property="og:title" content="George Victor Kamal — Full Stack Software Engineer" />
+  <meta property="og:title" content="George Victor Kamal — Senior Full-Stack Software Engineer" />
   <meta property="og:description"
-    content="Senior Full-Stack Engineer — .NET Core, Angular, Flutter. 10K+ users served. 40% faster APIs. 70% fewer deployments incidents. Azure AI Engineer & Power Platform certified. Cairo, Egypt." />
-  <meta property="og:image" content="https://georgevictorkamal.github.io/og-image.jpg" />
+    content="Senior Full-Stack Software Engineer — .NET Core, Angular, Flutter. 10K+ users served. 40% faster APIs. 70% fewer deployment incidents. Azure AI Engineer & Power Platform certified. Cairo, Egypt." />
+  <meta property="og:image" content="https://georgevictorkamal.github.io/profile.png" />
   <meta property="og:site_name" content="George Victor Kamal — Portfolio" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="George Victor Kamal — Full Stack Software Engineer" />
+  <meta name="twitter:title" content="George Victor Kamal — Senior Full-Stack Software Engineer" />
   <meta name="twitter:description"
-    content="Senior Full-Stack Engineer — .NET Core · Angular · Flutter. 10K+ users, 40% faster APIs, Azure certified. Cairo, Egypt." />
-  <meta name="twitter:image" content="https://georgevictorkamal.github.io/og-image.jpg" />
+    content="Senior Full-Stack Software Engineer — .NET Core · Angular · Flutter. 10K+ users, 40% faster APIs, Azure certified. Cairo, Egypt." />
+  <meta name="twitter:image" content="https://georgevictorkamal.github.io/profile.png" />
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://georgevictorkamal.github.io/" />
@@ -59,7 +79,7 @@
   <link rel="sitemap" type="application/xml" href="%BASE_URL%sitemap.xml" />
 
   <!-- Preload critical assets -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" as="style" />
 
   <!-- Favicon -->
   <link rel="icon" href="%BASE_URL%favicon.svg?v=2" type="image/svg+xml" />
@@ -73,13 +93,13 @@
       "@type": "Person",
       "name": "George Victor Kamal",
       "url": "https://georgevictorkamal.github.io",
-      "image": "https://georgevictorkamal.github.io/profile-image.jpg",
+      "image": "https://georgevictorkamal.github.io/profile.png",
       "sameAs": [
         "https://www.linkedin.com/in/georgevictorkamal/",
         "https://github.com/georgevictorkamal",
         "https://behance.net/georgevictorkamal"
       ],
-      "jobTitle": "Senior Full Stack Software Engineer",
+      "jobTitle": "Senior Full-Stack Software Engineer",
       "worksFor": {
         "@type": "Organization",
         "name": "Information Technology of Egypt Corporation"
@@ -118,7 +138,7 @@
   <!-- Preconnect to External Domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 
 <body>

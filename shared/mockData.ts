@@ -3,7 +3,7 @@ export const mockProjects = [
         id: 1,
         title: 'Grifols-DonorHUB',
         description: 'Comprehensive blood donor management system featuring a scalable Backend API, responsive Web Portal, and robust Mobile Application serving 10,000+ donors securely.',
-        shortDescription: 'Full-stack blood donor management platform for 10,000+ users.',
+        shortDescription: 'Full-stack blood donor management platform for 10,000+ donors.',
         imageUrl: '/projects/donorHub.svg',
         role: 'Full Stack Software Engineer',
         contribution: 'Architected and built the cross-platform mobile application, responsive web portal, and backend API. Implemented real-time donor registration, scheduling, history tracking, and OAuth2 authentication ensuring HIPAA compliance.',
@@ -16,7 +16,7 @@ export const mockProjects = [
         problemStatement: 'The client needed a secure, HIPAA-compliant system to manage 10,000+ donors across multiple platforms while reducing manual entry errors and improving scheduling efficiency.',
         solution: 'Developed a unified ecosystem consisting of an Angular web portal, a Flutter mobile app, and a robust .NET Core backend API with OAuth2 authentication.',
         teamSize: 5,
-        duration: '8 months (2025)',
+        duration: 'Nov 2025 - Mar 2026',
     },
     {
         id: 2,
@@ -35,7 +35,7 @@ export const mockProjects = [
         problemStatement: 'Gym administrators were struggling with manual member tracking using spreadsheets, leading to frequent billing errors and low engagement.',
         solution: 'Built a responsive Angular dashboard and a .NET Core API utilizing Repository and Factory patterns for high maintainability.',
         teamSize: 3,
-        duration: '6 months (2024)',
+        duration: 'Nov 2023 - Feb 2024',
     },
     {
         id: 3,
@@ -54,7 +54,7 @@ export const mockProjects = [
         problemStatement: 'The procurement process was hindered by slow email-based communication and lack of centralized tender tracking.',
         solution: 'Architected a robust backend API with automated CI/CD pipelines and swagger documentation to facilitate seamless collaboration.',
         teamSize: 4,
-        duration: '7 months (2023 - 2024)',
+        duration: 'Sep 2023 - Present',
     },
     {
         id: 4,
@@ -73,7 +73,7 @@ export const mockProjects = [
         problemStatement: 'Traditional manual attendance tracking led to inaccuracy and "buddy punching".',
         solution: 'Developed a Flutter app with geofencing integration and a high-performance Redis-backed .NET API.',
         teamSize: 2,
-        duration: '4 months (2024)',
+        duration: 'Mar 2024 - Jun 2024',
     },
     {
         id: 5,
@@ -88,6 +88,7 @@ export const mockProjects = [
         category: 'Mobile',
         featured: 0,
         order: 5,
+        duration: 'Nov 2020 - Jun 2021',
     },
     {
         id: 6,
@@ -121,6 +122,7 @@ export const mockProjects = [
         category: 'Power Platform',
         featured: 0,
         order: 7,
+        duration: 'Nov 2022 - Sep 2023',
     },
     {
         id: 8,
@@ -135,6 +137,7 @@ export const mockProjects = [
         category: 'Power Platform',
         featured: 0,
         order: 8,
+        duration: 'Nov 2022 - Sep 2023',
     },
     {
         id: 9,
@@ -149,6 +152,7 @@ export const mockProjects = [
         category: 'Power Platform',
         featured: 0,
         order: 9,
+        duration: 'Nov 2022 - Sep 2023',
     },
     {
         id: 10,
@@ -163,21 +167,22 @@ export const mockProjects = [
         category: 'Power Platform',
         featured: 0,
         order: 10,
+        duration: 'Nov 2022 - Sep 2023',
     }
 ];
 
 export const mockExperiences = [
     {
         id: 1,
-        title: 'Software Engineer',
+        title: 'Senior Full-Stack Software Engineer',
         company: 'Information Technology of Egypt Corporation',
         location: 'Giza, Egypt',
         startDate: new Date('2022-09-01').toISOString(),
         endDate: null,
         description: 'Led full-stack development initiatives across multiple enterprise applications, utilizing .NET Core, Angular, Flutter, and cloud platforms to deliver scalable solutions for business-critical operations.',
         achievements: JSON.stringify([
-            'Reduced average API response times by 40% through Redis caching and microservice refactoring, directly improving user satisfaction across web & mobile portals',
-            'Implemented end-to-end CI/CD pipelines and unit/integration testing suites, cutting deployment incidents by 70% and accelerating release cadence from weekly to twice-weekly',
+            'Reduced average API response times by 40% and processing times by 25% through Redis caching, query optimization, and microservice refactoring, directly improving user satisfaction across web & mobile portals',
+            'Implemented end-to-end CI/CD pipelines and unit/integration testing suites, cutting deployment incidents by 70%, doubling release frequency (weekly to twice-weekly), and sustaining 99.9% uptime',
             'Led architecture design, API development, and cross-functional delivery for the Tender Management Platform processing 200+ monthly tenders',
             'Built the Grifols DonorHUB backend API, Angular portal, and Flutter app serving 10,000+ donors with OAuth2 authentication for HIPAA compliance',
             'Automated 7 enterprise workflows on Microsoft Power Platform — travel approvals, fire safety compliance across 50+ facilities, price change authorisation, and expense management',
@@ -220,14 +225,14 @@ export const mockEducation = [
 ];
 
 export const mockCertifications = [
-    { id: 1, name: 'Microsoft Certified: Azure AI Engineer Associate', issuer: 'Microsoft', issuedDate: new Date('2025-06-01').toISOString(), credentialUrl: 'https://learn.microsoft.com/api/credentials/share/en-us/GeorgeVictorKamal-1654/2796F478D3F36F43?sharingId', order: 1 },
-    { id: 2, name: 'Microsoft Certified: Power Platform Developer Associate', issuer: 'Microsoft', issuedDate: new Date('2025-02-01').toISOString(), credentialUrl: 'https://learn.microsoft.com/api/credentials/share/en-us/GeorgeVictorKamal-1654/C73F1690A3747C89?sharingId', order: 2 },
+    { id: 1, name: 'Microsoft Certified: Azure AI Engineer Associate', issuer: 'Microsoft', issuedDate: new Date('2024-06-01').toISOString(), credentialUrl: 'https://learn.microsoft.com/api/credentials/share/en-us/GeorgeVictorKamal-1654/2796F478D3F36F43?sharingId', order: 1 },
+    { id: 2, name: 'Microsoft Certified: Power Platform Developer Associate', issuer: 'Microsoft', issuedDate: new Date('2024-02-01').toISOString(), credentialUrl: 'https://learn.microsoft.com/api/credentials/share/en-us/GeorgeVictorKamal-1654/C73F1690A3747C89?sharingId', order: 2 },
     { id: 3, name: 'Introduction to MongoDB', issuer: 'MaharaTech - ITIMooca', issuedDate: new Date('2024-01-01').toISOString(), credentialUrl: 'https://drive.google.com/file/d/1Ha0GX9ULin__Ju8qm5dQcFGfCzYCeGs0/view?usp=drive_link', order: 3 },
     { id: 4, name: 'Intro to ChatGPT and Generative AI', issuer: '365 Data Science', issuedDate: new Date('2023-07-01').toISOString(), credentialUrl: 'https://learn.365datascience.com/c/49a2c9393a', order: 4 },
     { id: 5, name: 'UX Design Fundamentals', issuer: 'MaharaTech - ITIMooca', issuedDate: new Date('2023-04-01').toISOString(), credentialUrl: 'https://drive.google.com/file/d/1FhAl4bvYIGfixj-MFQGbCMP7oee1vke0/view?usp=share_link', order: 5 },
     { id: 6, name: 'Career Essentials in Software Development by Microsoft and LinkedIn', issuer: 'Microsoft', issuedDate: new Date('2023-03-15').toISOString(), credentialUrl: 'https://www.linkedin.com/learning/certificates/cd2380cc04a4da40c26d239a215081acaf49910eec24360b2efb67f04992108e', order: 6 },
     { id: 7, name: 'Learn HTML & CSS', issuer: 'MaharaTech - ITIMooca', issuedDate: new Date('2023-03-01').toISOString(), credentialUrl: 'https://maharatech.gov.eg/mod/customcert/view.php?id=355&downloadown=1', order: 7 },
-    { id: 8, name: 'Certified Ethical Hacker (CEH)', issuer: 'MaharaTech - ITIMooca', issuedDate: new Date('2022-12-01').toISOString(), credentialUrl: 'https://drive.google.com/file/d/1OBkTLipP9YbSGL0FJ-aHOaZOYt4XUb9T/view?usp=share_link', order: 8 },
+    { id: 8, name: 'Ethical Hacking (CEH curriculum)', issuer: 'MaharaTech (ITI MOOCs)', issuedDate: new Date('2022-12-01').toISOString(), credentialUrl: 'https://drive.google.com/file/d/1OBkTLipP9YbSGL0FJ-aHOaZOYt4XUb9T/view?usp=share_link', order: 8 },
     { id: 9, name: 'Certificate of Completion - SQL', issuer: '365 Data Science', issuedDate: new Date('2022-11-15').toISOString(), credentialUrl: 'https://learn.365datascience.com/c/cc95b5e18c', order: 9 },
     { id: 10, name: 'Introduction to Software Testing Concepts & Techniques', issuer: 'MaharaTech - ITIMooca', issuedDate: new Date('2022-11-01').toISOString(), credentialUrl: 'https://maharatech.gov.eg/mod/customcert/view.php?id=8369&downloadown=1', order: 10 },
     { id: 11, name: 'Global Banking & Markets Virtual Experience Programme', issuer: 'Forage', issuedDate: new Date('2021-08-01').toISOString(), credentialUrl: 'https://www.theforage.com/simulations/jpmorgan-chase/global-banking-markets-8pax', order: 11 },

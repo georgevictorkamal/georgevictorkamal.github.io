@@ -1,34 +1,96 @@
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ExternalLink, Github, ArrowRight, Layers, Filter } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ArrowRight,
+  CheckCircle2,
+  ExternalLink,
+  Filter,
+  Github,
+  Search,
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { trpc } from '@/lib/trpc';
 import { useLocation } from 'wouter';
 import { Skeleton } from '@/components/ui/skeleton';
+import SectionHeader from '@/components/SectionHeader';
+
+const categoryStyles: Record<
+  string,
+  { badge: string; text: string; dot: string }
+> = {
+  'Full Stack': {
+    badge: 'border-primary/20 bg-primary/10 text-primary',
+    text: 'text-primary',
+    dot: 'bg-primary',
+  },
+  Backend: {
+    badge: 'border-accent-emerald/20 bg-accent-emerald/10 text-accent-emerald',
+    text: 'text-accent-emerald',
+    dot: 'bg-accent-emerald',
+  },
+  Mobile: {
+    badge: 'border-accent-mint/20 bg-accent-mint/10 text-accent-mint',
+    text: 'text-accent-mint',
+    dot: 'bg-accent-mint',
+  },
+  'Power Platform': {
+    badge: 'border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+    text: 'text-amber-600 dark:text-amber-400',
+    dot: 'bg-amber-500',
+  },
+};
+
+const fallbackCategoryStyle = {
+  badge: 'border-border bg-secondary text-foreground/60',
+  text: 'text-foreground/60',
+  dot: 'bg-foreground/40',
+};
+
+function getOutcomes(project: any): string[] {
+  if (!project.outcomes) return [];
+  try {
+    const parsed = JSON.parse(project.outcomes);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function getTechnologies(project: any): string[] {
+  if (!project.technologies) return [];
+  try {
+    const parsed = JSON.parse(project.technologies);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return String(project.technologies)
+      .split(',')
+      .map((tech) => tech.trim())
+      .filter(Boolean);
+  }
+}
 
 function ProjectCardLinks({ project }: { project: any }) {
   const [, navigate] = useLocation();
 
   return (
-    <div className="flex gap-2 mt-auto flex-wrap">
+    <div className="flex items-center gap-3">
       <button
         onClick={() => navigate(`/project/${project.id}`)}
-        className="flex items-center gap-1.5 px-3.5 py-2 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all duration-300 text-xs font-semibold shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/25"
+        className="group/link inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-primary transition-colors hover:text-primary/80"
       >
-        <ArrowRight size={14} />
         Case Study
+        <ArrowRight size={13} className="transition-transform group-hover/link:translate-x-0.5" />
       </button>
       {project.demoUrl && (
         <a
           href={project.demoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-2 bg-secondary text-foreground/70 rounded-xl hover:bg-secondary/80 transition-all duration-300 text-xs font-medium border border-border hover:border-primary/30"
+          className="text-foreground/35 transition-colors hover:text-foreground"
+          title="Live demo"
+          aria-label={`Open live demo for ${project.title}`}
         >
-          <ExternalLink size={13} />
-          Demo
+          <ExternalLink size={14} />
         </a>
       )}
       {project.sourceUrl && (
@@ -36,10 +98,11 @@ function ProjectCardLinks({ project }: { project: any }) {
           href={project.sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-2 bg-secondary text-foreground/70 rounded-xl hover:bg-secondary/80 transition-all duration-300 text-xs font-medium border border-border hover:border-primary/30"
+          className="text-foreground/35 transition-colors hover:text-foreground"
+          title="Source code"
+          aria-label={`Open source code for ${project.title}`}
         >
-          <Github size={13} />
-          Code
+          <Github size={14} />
         </a>
       )}
     </div>
@@ -52,298 +115,211 @@ export default function ProjectsSection() {
 
   const { data: projects = [], isLoading } = trpc.portfolio.projects.all.useQuery();
 
-  
   const categories = useMemo(() => {
     const cats = new Set<string>();
-    projects.forEach((p) => {
-      if (p.category) cats.add(p.category);
+    projects.forEach((project) => {
+      if (project.category) cats.add(project.category);
     });
     return Array.from(cats).sort();
   }, [projects]);
 
-  
   const filteredProjects = useMemo(() => {
-    let result = projects.filter((project) => {
-      const searchLower = searchTerm.toLowerCase();
-      
-      let techMatches = false;
-      if (project.technologies) {
-        try {
-          const techs = JSON.parse(project.technologies);
-          techMatches = techs.some((t: string) => t.toLowerCase().includes(searchLower));
-        } catch {
-          techMatches = project.technologies.toLowerCase().includes(searchLower);
-        }
-      }
+    const searchLower = searchTerm.toLowerCase();
 
-      const matchesSearch =
-        project.title.toLowerCase().includes(searchLower) ||
-        project.description?.toLowerCase().includes(searchLower) ||
-        project.shortDescription?.toLowerCase().includes(searchLower) ||
-        techMatches;
+    return projects
+      .filter((project) => {
+        const techs = getTechnologies(project);
+        const matchesSearch =
+          !searchLower ||
+          project.title.toLowerCase().includes(searchLower) ||
+          project.description?.toLowerCase().includes(searchLower) ||
+          project.shortDescription?.toLowerCase().includes(searchLower) ||
+          techs.some((tech) => tech.toLowerCase().includes(searchLower));
 
-      if (!selectedCategory) return matchesSearch;
-      return matchesSearch && project.category === selectedCategory;
-    });
-    
-    
-    return result.sort((a, b) => (a.order || 99) - (b.order || 99));
+        if (!selectedCategory) return matchesSearch;
+        return matchesSearch && project.category === selectedCategory;
+      })
+      .sort((a, b) => (a.order || 99) - (b.order || 99));
   }, [projects, searchTerm, selectedCategory]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9, y: 20 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
-    },
-    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } },
-  };
-
-  
-  const imageBadgeColors: Record<string, string> = {
-    'Full Stack': 'bg-teal-600/90 text-white backdrop-blur-md border border-teal-500/50 shadow-sm',
-    'Backend': 'bg-emerald-600/90 text-white backdrop-blur-md border border-emerald-500/50 shadow-sm',
-    'Frontend': 'bg-cyan-600/90 text-white backdrop-blur-md border border-cyan-500/50 shadow-sm',
-    'Mobile': 'bg-teal-500/90 text-white backdrop-blur-md border border-teal-400/50 shadow-sm',
-    'Power Platform': 'bg-emerald-700/90 text-white backdrop-blur-md border border-emerald-600/50 shadow-sm',
-  };
-
-  const techBadgeColors: Record<string, string> = {
-    'Full Stack': 'bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20',
-    'Backend': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20',
-    'Frontend': 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20',
-    'Mobile': 'bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/20',
-    'Power Platform': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20',
-  };
-
   return (
-    <section id="projects" className="py-24 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-3xl"></div>
-      </div>
+    <section id="projects" className="relative py-20 md:py-28">
+      <div className="container">
+        <SectionHeader
+          eyebrow="Portfolio"
+          title={
+            <>
+              Featured <span className="gradient-text">projects</span>
+            </>
+          }
+          description="A selection of impactful projects showcasing full-stack development, mobile engineering, and enterprise platform expertise."
+          className="mb-8"
+        />
 
-      <div className="container relative z-10">
-        {}
         <motion.div
-          className="mb-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
+          className="mx-auto mb-10 flex max-w-3xl flex-col items-center gap-4"
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 border border-primary/20">
-            Portfolio
-          </span>
-          <h2 className="mb-4">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <p className="text-lg text-foreground/55 max-w-2xl mx-auto">
-            A selection of impactful projects showcasing full-stack development, mobile engineering, and enterprise platform expertise.
-          </p>
-        </motion.div>
-
-        {}
-        <motion.div
-          className="mb-10 space-y-4 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          {}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/35" size={18} />
+          <div className="relative w-full max-w-md">
+            <Search
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-foreground/30"
+              size={16}
+            />
             <Input
               id="projects-search"
               type="text"
               name="search"
-              placeholder="Search projects..."
+              placeholder="Search projects, technologies..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-11 py-2.5 bg-card border-border rounded-xl"
+              onChange={(event) => setSearchTerm(event.target.value)}
+              className="h-10 rounded-full border-border bg-card pl-10 pr-4 text-sm shadow-sm"
               autoComplete="off"
             />
           </div>
 
-          {}
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Button
-              variant={selectedCategory === null ? 'default' : 'outline'}
-              size="sm"
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
               onClick={() => setSelectedCategory(null)}
-              className="rounded-xl text-xs h-8"
+              className={`rounded-full px-3.5 py-1.5 font-mono text-xs font-semibold transition-all ${
+                selectedCategory === null
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'bg-secondary text-foreground/55 hover:bg-secondary/70 hover:text-foreground'
+              }`}
             >
-              <Layers size={13} className="mr-1" />
-              All
-              {!isLoading && <span className="ml-1 opacity-60">({projects.length})</span>}
-            </Button>
-            {categories.map((cat) => (
-              <Button
-                key={cat}
-                variant={selectedCategory === cat ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedCategory(cat)}
-                className="rounded-xl text-xs h-8"
+              All ({projects.length})
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-full px-3.5 py-1.5 font-mono text-xs font-semibold transition-all ${
+                  selectedCategory === category
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'bg-secondary text-foreground/55 hover:bg-secondary/70 hover:text-foreground'
+                }`}
               >
-                {cat}
-              </Button>
+                {category}
+              </button>
             ))}
           </div>
         </motion.div>
 
-        {}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-card border border-border rounded-2xl overflow-hidden h-[400px] flex flex-col">
-                <Skeleton className="w-full h-44 rounded-none" />
-                <div className="p-5 flex flex-col gap-3 flex-grow">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-5/6" />
-                  <div className="mt-auto flex gap-2">
-                    <Skeleton className="h-9 w-24 rounded-xl" />
-                    <Skeleton className="h-9 w-20 rounded-xl" />
-                  </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {[1, 2, 3, 4].map((index) => (
+              <div key={index} className="surface-card flex h-[310px] flex-col gap-3 p-5">
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-5 w-24 rounded" />
+                  <Skeleton className="h-4 w-28" />
+                </div>
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-10 w-full rounded-lg" />
+                <div className="mt-auto flex gap-2">
+                  <Skeleton className="h-6 w-16 rounded" />
+                  <Skeleton className="h-6 w-20 rounded" />
+                  <Skeleton className="h-6 w-14 rounded" />
                 </div>
               </div>
             ))}
           </div>
         ) : filteredProjects.length > 0 ? (
-          <motion.div
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 gap-5"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+          <motion.div layout className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => {
-              let techs: string[] = [];
-              try {
-                techs = project.technologies ? JSON.parse(project.technologies) : [];
-              } catch {
-                techs = project.technologies ? project.technologies.split(',').map(t => t.trim()) : [];
-              }
+              {filteredProjects.map((project) => {
+                const techs = getTechnologies(project);
+                const outcomes = getOutcomes(project);
+                const style = categoryStyles[project.category || ''] || fallbackCategoryStyle;
 
-              return (
-                <motion.div
-                  key={project.id}
-                  layout
-                  variants={itemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="group relative"
-                  whileHover={{ y: -6 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+                return (
+                  <motion.article
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.35 }}
+                    className="surface-card surface-card-hover group flex flex-col p-5"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      {project.category && (
+                        <span
+                          className={`inline-flex items-center rounded border px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-wide ${style.badge}`}
+                        >
+                          {project.category}
+                        </span>
+                      )}
+                      {outcomes[0] && (
+                        <span className={`inline-flex min-w-0 items-center gap-1.5 font-mono text-[10px] ${style.text}`}>
+                          <span className={`size-1.5 shrink-0 rounded-full ${style.dot}`} />
+                          <span className="truncate">{outcomes[0]}</span>
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 h-full flex flex-col">
-                    {}
-                    {project.imageUrl && (
-                      <div className="w-full h-44 bg-secondary overflow-hidden relative">
-                        <img
-                          src={project.imageUrl}
-                          alt={project.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop'; 
-                            target.onerror = null; 
-                          }}
-                        />
-                        {}
-                        <div className="absolute inset-0 bg-gradient-to-t from-card/30 to-transparent"></div>
-                        {}
-                        {project.category && (
-                          <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${imageBadgeColors[project.category] || 'bg-secondary text-foreground/60 border border-border'}`}>
-                            {project.category}
-                          </div>
-                        )}
+                    <h3 className="mt-3 text-lg font-bold tracking-normal text-foreground">{project.title}</h3>
+
+                    {project.shortDescription && (
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-foreground/55">
+                        {project.shortDescription}
+                      </p>
+                    )}
+
+                    {outcomes[0] && (
+                      <div className="mt-3 flex items-start gap-2 rounded-lg border border-border bg-secondary/40 px-3 py-2">
+                        <CheckCircle2 size={14} className={`mt-0.5 shrink-0 ${style.text}`} />
+                        <span className="text-xs leading-relaxed text-foreground/70">{outcomes[0]}</span>
                       </div>
                     )}
 
-                    {}
-                    <div className="p-5 flex flex-col flex-grow">
-                      <h3 className="text-lg font-semibold mb-1.5 tracking-normal">{project.title}</h3>
-
-                      {project.shortDescription && (
-                        <p className="text-foreground/50 text-sm mb-3 flex-grow leading-relaxed line-clamp-2">
-                          {project.shortDescription}
-                        </p>
+                    <div className="mt-auto pt-4">
+                      {techs.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {techs.slice(0, 4).map((tech, index) => (
+                            <span
+                              key={tech}
+                              className={`rounded bg-secondary px-2 py-0.5 font-mono text-[10px] ${
+                                index % 3 === 0
+                                  ? 'text-primary'
+                                  : index % 3 === 1
+                                    ? 'text-accent-emerald'
+                                    : 'text-foreground/60'
+                              }`}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {techs.length > 4 && (
+                            <span className="rounded bg-secondary px-2 py-0.5 font-mono text-[10px] text-foreground/35">
+                              +{techs.length - 4}
+                            </span>
+                          )}
+                        </div>
                       )}
 
-                      {/* Outcome highlight — first metric */}
-                      {project.outcomes && (() => {
-                        try {
-                          const outcomes: string[] = JSON.parse(project.outcomes);
-                          if (outcomes.length > 0) return (
-                            <div className="flex items-center gap-1.5 mb-3 px-2.5 py-1.5 bg-primary/8 rounded-lg border border-primary/15">
-                              <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
-                              <span className="text-xs text-primary/80 font-medium leading-tight">{outcomes[0]}</span>
-                            </div>
-                          );
-                        } catch { return null; }
-                        return null;
-                      })()}
-
-                      {}
-                      {techs.length > 0 && (() => {
-                        const techClass = project.category && techBadgeColors[project.category] 
-                          ? techBadgeColors[project.category] 
-                          : "bg-secondary text-foreground/70 border border-border";
-                        return (
-                          <div className="flex flex-wrap gap-1.5 mb-4">
-                            {techs.slice(0, 4).map((tech: string) => (
-                              <span key={tech} className={`inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-medium ${techClass}`}>
-                                {tech}
-                              </span>
-                            ))}
-                            {techs.length > 4 && (
-                              <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-medium opacity-60 ${techClass}`}>
-                                +{techs.length - 4}
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })()}
-
-                      {}
-                      <ProjectCardLinks project={project} />
+                      <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3">
+                        <span className="font-mono text-[10px] text-foreground/35">{project.duration || ''}</span>
+                        <ProjectCardLinks project={project} />
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.article>
+                );
+              })}
             </AnimatePresence>
           </motion.div>
         ) : (
           <motion.div
-            className="text-center py-16"
+            className="flex flex-col items-center py-16 text-center"
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1 }}
           >
-            <Filter size={48} className="mx-auto text-foreground/20 mb-4" />
-            <p className="text-foreground/50 font-medium">No projects found matching your criteria.</p>
-            <p className="text-foreground/30 text-sm mt-1">Try adjusting your search or filter.</p>
+            <Filter size={42} className="mb-4 text-foreground/20" />
+            <p className="font-medium text-foreground/55">No projects found matching your criteria.</p>
+            <p className="mt-1 text-sm text-foreground/30">Try adjusting your search or filter.</p>
           </motion.div>
         )}
       </div>

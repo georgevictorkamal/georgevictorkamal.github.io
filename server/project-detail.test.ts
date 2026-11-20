@@ -128,7 +128,7 @@ describe("project detail endpoints", () => {
     expect(grifolsProject?.problemStatement).toContain("HIPAA");
     expect(grifolsProject?.solution).toContain("Angular");
     expect(grifolsProject?.teamSize).toBe(5);
-    expect(grifolsProject?.duration).toBe("8 months");
+    expect(grifolsProject?.duration).toBe("Nov 2025 - Mar 2026");
   });
 
   it("kaizen gym project has comprehensive case study data", async () => {
@@ -142,7 +142,7 @@ describe("project detail endpoints", () => {
     expect(kaizenProject?.caseStudyOverview).toContain("gym management");
     expect(kaizenProject?.problemStatement).toContain("spreadsheets");
     expect(kaizenProject?.teamSize).toBe(3);
-    expect(kaizenProject?.duration).toBe("6 months");
+    expect(kaizenProject?.duration).toBe("Nov 2023 - Feb 2024");
   });
 
   it("tender management project has comprehensive case study data", async () => {
@@ -156,7 +156,7 @@ describe("project detail endpoints", () => {
     expect(tenderProject?.caseStudyOverview).toContain("tender management");
     expect(tenderProject?.problemStatement).toContain("email");
     expect(tenderProject?.teamSize).toBe(4);
-    expect(tenderProject?.duration).toBe("7 months");
+    expect(tenderProject?.duration).toBe("Sep 2023 - Present");
   });
 
   it("location-based attendance project has comprehensive case study data", async () => {
@@ -170,7 +170,7 @@ describe("project detail endpoints", () => {
     expect(attendanceProject?.caseStudyOverview).toContain("geofencing");
     expect(attendanceProject?.problemStatement).toContain("manual");
     expect(attendanceProject?.teamSize).toBe(2);
-    expect(attendanceProject?.duration).toBe("4 months");
+    expect(attendanceProject?.duration).toBe("Mar 2024 - Jun 2024");
   });
 
   it("all projects have technologies array", async () => {

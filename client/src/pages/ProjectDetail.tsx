@@ -1,9 +1,84 @@
-import { useParams, useLocation } from 'wouter';
-import { trpc } from '@/lib/trpc';
-import { Button } from '@/components/ui/button';
-import { Loader2, ArrowLeft, ExternalLink, Github } from 'lucide-react';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'wouter';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  Github,
+  Layers,
+  Loader2,
+  UserRound,
+  Users,
+} from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+
+function safeParseArray(value: unknown): string[] {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(String(value));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function safeParseObject(value: unknown): Record<string, string> | null {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(String(value));
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+interface ProjectDetailData {
+  id: number;
+  title: string;
+  description: string;
+  shortDescription?: string;
+  imageUrl?: string;
+  role?: string;
+  contribution?: string;
+  technologies?: string;
+  outcomes?: string;
+  category?: string;
+  featured?: number;
+  caseStudyOverview?: string;
+  problemStatement?: string;
+  solution?: string;
+  teamSize?: number;
+  duration?: string;
+  challenges?: string;
+  measurableOutcomes?: string;
+  architecture?: string;
+  demoUrl?: string;
+  sourceUrl?: string;
+}
+
+function DetailSection({
+  index,
+  title,
+  children,
+}: {
+  index: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="mb-3 flex items-center gap-3">
+        <span className="mono-label text-primary">{index}</span>
+        <span className="h-px flex-1 bg-border" />
+      </div>
+      <h2 className="text-xl font-bold tracking-normal text-foreground md:text-2xl">{title}</h2>
+      <div className="mt-3">{children}</div>
+    </section>
+  );
+}
 
 export default function ProjectDetail() {
   const params = useParams();
@@ -21,296 +96,273 @@ export default function ProjectDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div className="flex min-h-[70vh] items-center justify-center bg-background">
+        <Loader2 className="size-8 animate-spin text-primary" />
       </div>
     );
   }
 
   if (error || !project) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Project not found</h1>
-        <Button onClick={() => navigate('/projects')} variant="outline">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Projects
-        </Button>
+      <div className="flex min-h-[70vh] flex-col items-center justify-center gap-4 bg-background px-6 text-center">
+        <h1 className="text-2xl font-bold text-foreground">Project not found</h1>
+        <p className="max-w-md text-sm text-foreground/50">
+          The case study you are looking for may have moved. Head back to the portfolio to browse the
+          available projects.
+        </p>
+        <button
+          onClick={() => navigate('/')}
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          <ArrowLeft size={15} />
+          Back to portfolio
+        </button>
       </div>
     );
   }
 
-  const technologies = project.technologies ? JSON.parse(project.technologies) : [];
-  const outcomes = project.outcomes ? JSON.parse(project.outcomes) : [];
-  const challenges = project.challenges ? JSON.parse(project.challenges) : [];
-  const measurableOutcomes = project.measurableOutcomes ? JSON.parse(project.measurableOutcomes) : [];
-  const architecture = project.architecture ? JSON.parse(project.architecture) : null;
+  const detail = project as unknown as ProjectDetailData;
+  const technologies = safeParseArray(detail.technologies);
+  const outcomes = safeParseArray(detail.outcomes);
+  const challenges = safeParseArray(detail.challenges);
+  const measurableOutcomes = safeParseArray(detail.measurableOutcomes);
+  const architecture = safeParseObject(detail.architecture);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const metadata = [
+    { label: 'Role', value: detail.role || 'Full-Stack Developer', icon: UserRound },
+    { label: 'Team size', value: detail.teamSize || 'Solo', icon: Users },
+    { label: 'Duration', value: detail.duration || '3–6 months', icon: Clock },
+  ];
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
+  let sectionCounter = 0;
+  const sectionIndex = (label: string) =>
+    `${String((sectionCounter += 1)).padStart(2, '0')} / ${label}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {}
-      <div className="sticky top-0 z-40 bg-white border-b border-slate-200">
-        <div className="container mx-auto px-4 py-4">
-          <Button
-            onClick={() => navigate('/#projects')}
-            variant="ghost"
-            className="gap-2"
+    <div className="min-h-screen bg-background">
+      <div className="sticky top-16 z-40 border-b border-border bg-background/85 backdrop-blur-xl">
+        <div className="container py-3">
+          <button
+            onClick={() => navigate('/')}
+            className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-medium text-foreground/55 transition-colors hover:bg-secondary hover:text-foreground"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Projects
-          </Button>
+            <ArrowLeft size={15} />
+            Back to projects
+          </button>
         </div>
       </div>
 
-      {}
       <motion.div
-        className="container mx-auto px-4 py-12"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        className="container py-10 md:py-14"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        {}
-        <motion.div variants={itemVariants} className="mb-12">
-          {project.imageUrl && (
-            <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl bg-secondary/30 relative aspect-video md:aspect-[21/9]">
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80';
-                  target.onerror = null;
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent pointer-events-none"></div>
-            </div>
-          )}
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
-            {project.title}
+        <div className="mx-auto max-w-4xl">
+          <div className="flex flex-wrap items-center gap-2">
+            {detail.category && <span className="section-eyebrow">{detail.category}</span>}
+            {detail.featured === 1 && (
+              <span className="rounded border border-accent-emerald/20 bg-accent-emerald/10 px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-wide text-accent-emerald">
+                Featured
+              </span>
+            )}
+          </div>
+
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
+            {detail.title}
           </h1>
-          <p className="text-xl text-slate-600 mb-6">{project.description}</p>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-foreground/55 md:text-lg">
+            {detail.description}
+          </p>
 
-          {}
-          <div className="flex flex-wrap gap-4 mb-8">
-            {project.demoUrl && (
+          <div className="mt-6 flex flex-wrap gap-2.5">
+            {detail.demoUrl && (
               <a
-                href={project.demoUrl}
+                href={detail.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
               >
-                <ExternalLink className="w-4 h-4" />
-                View Live Demo
+                <ExternalLink size={15} />
+                Live demo
               </a>
             )}
-            {project.sourceUrl && (
+            {detail.sourceUrl && (
               <a
-                href={project.sourceUrl}
+                href={detail.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground/70 transition-colors hover:border-primary/30 hover:text-foreground"
               >
-                <Github className="w-4 h-4" />
-                View Source Code
+                <Github size={15} />
+                Source code
               </a>
             )}
+            <button
+              onClick={() => navigate('/#contact')}
+              className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+            >
+              Discuss similar work
+              <ArrowRight size={15} />
+            </button>
           </div>
-        </motion.div>
 
-        {}
-        <motion.div variants={itemVariants} className="grid md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white p-6 rounded-lg border border-slate-200">
-            <h3 className="text-sm font-semibold text-slate-500 uppercase mb-2">My Role</h3>
-            <p className="text-lg font-semibold text-slate-900">{project.role || 'Full Stack Developer'}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg border border-slate-200">
-            <h3 className="text-sm font-semibold text-slate-500 uppercase mb-2">Team Size</h3>
-            <p className="text-lg font-semibold text-slate-900">{project.teamSize || 'Solo'}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg border border-slate-200">
-            <h3 className="text-sm font-semibold text-slate-500 uppercase mb-2">Duration</h3>
-            <p className="text-lg font-semibold text-slate-900">{project.duration || '3-6 months'}</p>
-          </div>
-        </motion.div>
-
-        {}
-        {project.caseStudyOverview && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Case Study Overview</h2>
-            <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg">
-              <p className="text-slate-700 leading-relaxed">{project.caseStudyOverview}</p>
-            </div>
-          </motion.section>
-        )}
-
-        {}
-        {project.problemStatement && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Problem Statement</h2>
-            <div className="bg-white p-6 rounded-lg border border-slate-200">
-              <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
-                {project.problemStatement}
-              </p>
-            </div>
-          </motion.section>
-        )}
-
-        {}
-        {project.solution && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Solution</h2>
-            <div className="bg-white p-6 rounded-lg border border-slate-200">
-              <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
-                {project.solution}
-              </p>
-            </div>
-          </motion.section>
-        )}
-
-        {}
-        {architecture && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Technical Architecture</h2>
-            <div className="bg-white p-6 rounded-lg border border-slate-200">
-              <div className="space-y-4">
-                {architecture.frontend && (
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Frontend</h3>
-                    <p className="text-slate-600">{architecture.frontend}</p>
-                  </div>
-                )}
-                {architecture.backend && (
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Backend</h3>
-                    <p className="text-slate-600">{architecture.backend}</p>
-                  </div>
-                )}
-                {architecture.database && (
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Database</h3>
-                    <p className="text-slate-600">{architecture.database}</p>
-                  </div>
-                )}
-                {architecture.infrastructure && (
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Infrastructure</h3>
-                    <p className="text-slate-600">{architecture.infrastructure}</p>
-                  </div>
-                )}
+          {detail.imageUrl && (
+            <div className="mt-8 overflow-hidden rounded-xl border border-border bg-secondary shadow-sm">
+              <div className="aspect-video w-full md:aspect-[21/9]">
+                <img
+                  src={detail.imageUrl}
+                  alt={detail.title}
+                  className="h-full w-full object-cover"
+                  onError={(event) => {
+                    (event.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
               </div>
             </div>
-          </motion.section>
-        )}
+          )}
 
-        {}
-        {technologies.length > 0 && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Technologies Used</h2>
-            <div className="flex flex-wrap gap-3">
-              {technologies.map((tech: string, idx: number) => (
-                <span
-                  key={idx}
-                  className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </motion.section>
-        )}
-
-        {}
-        {challenges.length > 0 && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Challenges & Solutions</h2>
-            <div className="space-y-4">
-              {challenges.map((challenge: string, idx: number) => (
-                <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200">
-                  <p className="text-slate-700">{challenge}</p>
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {metadata.map(({ label, value, icon: Icon }) => (
+              <div key={label} className="surface-card p-4">
+                <div className="flex items-center gap-2">
+                  <Icon size={14} className="text-primary" />
+                  <span className="mono-label text-foreground/35">{label}</span>
                 </div>
-              ))}
-            </div>
-          </motion.section>
-        )}
+                <p className="mt-2 text-sm font-semibold text-foreground">{value}</p>
+              </div>
+            ))}
+          </div>
 
-        {}
-        {measurableOutcomes.length > 0 && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Measurable Outcomes</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {measurableOutcomes.map((outcome: string, idx: number) => (
-                <div
-                  key={idx}
-                  className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg border border-green-200"
-                >
-                  <p className="text-slate-700 font-medium">{outcome}</p>
+          <div className="mt-12 space-y-10">
+            {detail.caseStudyOverview && (
+              <DetailSection index={sectionIndex('Overview')} title="Case study overview">
+                <div className="surface-card border-l-2 border-l-primary p-5">
+                  <p className="text-sm leading-relaxed text-foreground/60">{detail.caseStudyOverview}</p>
                 </div>
-              ))}
-            </div>
-          </motion.section>
-        )}
+              </DetailSection>
+            )}
 
-        {}
-        {outcomes.length > 0 && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">Key Outcomes</h2>
-            <ul className="space-y-3">
-              {outcomes.map((outcome: string, idx: number) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold mt-1">
-                    ✓
-                  </span>
-                  <span className="text-slate-700">{outcome}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.section>
-        )}
+            {detail.problemStatement && (
+              <DetailSection index={sectionIndex('Problem')} title="Problem statement">
+                <div className="surface-card p-5">
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/60">
+                    {detail.problemStatement}
+                  </p>
+                </div>
+              </DetailSection>
+            )}
 
-        {}
-        {project.contribution && (
-          <motion.section variants={itemVariants} className="mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-slate-900">My Contribution</h2>
-            <div className="bg-white p-6 rounded-lg border border-slate-200">
-              <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
-                {project.contribution}
-              </p>
-            </div>
-          </motion.section>
-        )}
+            {detail.solution && (
+              <DetailSection index={sectionIndex('Solution')} title="Solution">
+                <div className="surface-card p-5">
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/60">
+                    {detail.solution}
+                  </p>
+                </div>
+              </DetailSection>
+            )}
 
-        {}
-        <motion.div variants={itemVariants} className="text-center py-12">
-          <h3 className="text-2xl font-bold mb-4 text-slate-900">
-            Interested in similar work?
-          </h3>
-          <Button
-          onClick={() => navigate('/#contact')}
-          className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Get in Touch
-        </Button>
-        </motion.div>
+            {architecture && (
+              <DetailSection index={sectionIndex('Architecture')} title="Technical architecture">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {Object.entries(architecture).map(([key, value]) => (
+                    <div key={key} className="surface-card p-4">
+                      <h3 className="mono-label text-primary">{key}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/55">{value}</p>
+                    </div>
+                  ))}
+                </div>
+              </DetailSection>
+            )}
+
+            {technologies.length > 0 && (
+              <DetailSection index={sectionIndex('Stack')} title="Technologies used">
+                <div className="surface-card p-5">
+                  <div className="flex flex-wrap gap-1.5">
+                    {technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md bg-secondary px-2.5 py-1 font-mono text-[11px] text-foreground/65"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </DetailSection>
+            )}
+
+            {challenges.length > 0 && (
+              <DetailSection index={sectionIndex('Challenges')} title="Challenges & solutions">
+                <div className="space-y-3">
+                  {challenges.map((challenge, index) => (
+                    <div key={index} className="surface-card flex gap-3 p-4">
+                      <span className="mono-label mt-0.5 text-accent-emerald">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <p className="text-sm leading-relaxed text-foreground/60">{challenge}</p>
+                    </div>
+                  ))}
+                </div>
+              </DetailSection>
+            )}
+
+            {measurableOutcomes.length > 0 && (
+              <DetailSection index={sectionIndex('Results')} title="Measurable outcomes">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {measurableOutcomes.map((outcome, index) => (
+                    <div
+                      key={index}
+                      className="surface-card border-accent-emerald/20 bg-accent-emerald/5 p-4"
+                    >
+                      <p className="text-sm font-medium leading-relaxed text-foreground/70">{outcome}</p>
+                    </div>
+                  ))}
+                </div>
+              </DetailSection>
+            )}
+
+            {outcomes.length > 0 && (
+              <DetailSection index={sectionIndex('Outcomes')} title="Key outcomes">
+                <ul className="surface-card space-y-3 p-5">
+                  {outcomes.map((outcome, index) => (
+                    <li key={index} className="flex items-start gap-2.5">
+                      <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-accent-emerald" />
+                      <span className="text-sm leading-relaxed text-foreground/60">{outcome}</span>
+                    </li>
+                  ))}
+                </ul>
+              </DetailSection>
+            )}
+
+            {detail.contribution && (
+              <DetailSection index={sectionIndex('Contribution')} title="My contribution">
+                <div className="surface-card p-5">
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/60">
+                    {detail.contribution}
+                  </p>
+                </div>
+              </DetailSection>
+            )}
+          </div>
+
+          <div className="mt-14 flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-8 text-center shadow-sm">
+            <Layers size={24} className="text-primary" />
+            <h2 className="text-xl font-bold text-foreground md:text-2xl">Interested in similar work?</h2>
+            <p className="max-w-md text-sm text-foreground/50">
+              I am available for senior and lead engineering roles, architecture reviews, and full-stack
+              delivery.
+            </p>
+            <button
+              onClick={() => navigate('/#contact')}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-accent-emerald px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:brightness-110"
+            >
+              Get in touch
+              <ArrowRight size={15} />
+            </button>
+          </div>
+        </div>
       </motion.div>
     </div>
   );

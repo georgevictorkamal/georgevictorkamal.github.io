@@ -14,8 +14,8 @@ export function updateMetaTags({
   title,
   description,
   keywords = "",
-  image = "https://georgevictorkamal.com/og-image.jpg",
-  url = "https://georgevictorkamal.com",
+  image = "https://georgevictorkamal.github.io/profile.png",
+  url = "https://georgevictorkamal.github.io",
   type = "website",
 }: MetaTagProps): void {
   
@@ -86,16 +86,17 @@ export function createPersonSchema(overrides: Record<string, unknown> = {}): voi
     "@context": "https://schema.org/",
     "@type": "Person",
     name: "George Victor Kamal",
-    url: "https://georgevictorkamal.com",
-    image: "https://georgevictorkamal.com/profile-image.jpg",
+    url: "https://georgevictorkamal.github.io",
+    image: "https://georgevictorkamal.github.io/profile.png",
     sameAs: [
       "https://www.linkedin.com/in/georgevictorkamal/",
       "https://github.com/georgevictorkamal",
+      "https://behance.net/georgevictorkamal",
     ],
-    jobTitle: "Full Stack Developer",
+    jobTitle: "Senior Full-Stack Software Engineer",
     worksFor: {
       "@type": "Organization",
-      name: "Self-employed / Freelance",
+      name: "Information Technology of Egypt Corporation",
     },
     ...overrides,
   });

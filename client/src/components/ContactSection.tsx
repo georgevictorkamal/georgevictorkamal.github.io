@@ -1,11 +1,24 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, AlertCircle, Linkedin, Github, ArrowUpRight, Palette } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import {
+  AlertCircle,
+  ArrowUpRight,
+  Check,
+  Copy,
+  Github,
+  Linkedin,
+  Loader2,
+  Mail,
+  MapPin,
+  Palette,
+  Phone,
+  Send,
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import SectionHeader from '@/components/SectionHeader';
 
 interface FormErrors {
   name?: string;
@@ -13,6 +26,39 @@ interface FormErrors {
   subject?: string;
   message?: string;
 }
+
+const contactChannels = [
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'georgevictorkamal@gmail.com',
+    href: 'mailto:georgevictorkamal@gmail.com',
+    copyValue: 'georgevictorkamal@gmail.com',
+    tile: 'bg-primary/10 text-primary',
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+20 12 11 388 499',
+    href: 'tel:+201211388499',
+    copyValue: '+201211388499',
+    tile: 'bg-accent-emerald/10 text-accent-emerald',
+  },
+  {
+    icon: MapPin,
+    label: 'Location',
+    value: 'Cairo, Egypt (available globally)',
+    href: undefined,
+    copyValue: undefined,
+    tile: 'bg-accent-mint/10 text-accent-mint',
+  },
+];
+
+const socialLinks = [
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/georgevictorkamal', accent: 'text-primary' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/georgevictorkamal', accent: 'text-accent-emerald' },
+  { icon: Palette, label: 'Behance', href: 'https://behance.net/georgevictorkamal', accent: 'text-accent-mint' },
+];
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -23,6 +69,7 @@ export default function ContactSection() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
 
   const sendMessage = trpc.portfolio.contact.send.useMutation({
     onSuccess: (data) => {
@@ -31,7 +78,7 @@ export default function ContactSection() {
         setFormData({ name: '', email: '', subject: '', message: '' });
         setErrors({});
       } else {
-        toast.warning(data.message || "Could not deliver your message. Please try emailing directly.");
+        toast.warning(data.message || 'Could not deliver your message. Please try emailing directly.');
       }
     },
     onError: (error) => {
@@ -53,209 +100,262 @@ export default function ContactSection() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) { toast.error('Please fix the errors in the form'); return; }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!validateForm()) {
+      toast.error('Please fix the errors in the form');
+      return;
+    }
     setIsSubmitting(true);
-    try { await sendMessage.mutateAsync(formData); } finally { setIsSubmitting(false); }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    try {
+      await sendMessage.mutateAsync(formData);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'georgevictorkamal@gmail.com', href: 'mailto:georgevictorkamal@gmail.com' },
-    { icon: Phone, label: 'Phone', value: '+20 12 11 388 499', href: 'tel:+201211388499' },
-    { icon: MapPin, label: 'Location', value: 'Cairo, Egypt', href: undefined },
-  ];
-
-  const socialLinks = [
-    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/georgevictorkamal' },
-    { icon: Github, label: 'GitHub', href: 'https://github.com/georgevictorkamal' },
-    { icon: Palette, label: 'Behance', href: 'https://behance.net/georgevictorkamal' },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFormData((previous) => ({ ...previous, [name]: value }));
+    if (errors[name as keyof FormErrors]) {
+      setErrors((previous) => ({ ...previous, [name]: undefined }));
+    }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+  const copyToClipboard = async (value: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(label);
+      toast.success(`${label} copied to clipboard`);
+      window.setTimeout(() => setCopied(null), 1800);
+    } catch {
+      toast.error('Could not copy to clipboard');
+    }
   };
+
+  const isSending = isSubmitting || sendMessage.isPending;
 
   return (
-    <section id="contact" className="py-24 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"></div>
-      </div>
+    <section id="contact" className="relative border-y border-border bg-surface-container-lowest py-20 md:py-28">
+      <div className="container">
+        <SectionHeader
+          eyebrow="Get In Touch"
+          title={
+            <>
+              Let&apos;s work <span className="gradient-text">together</span>
+            </>
+          }
+          description="Have a project in mind or want to discuss opportunities? I'd love to hear from you."
+          className="mb-12"
+        />
 
-      <div className="container relative z-10">
-        {}
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 border border-primary/20">
-            Get in Touch
-          </span>
-          <h2 className="mb-4">
-            Let's Work <span className="gradient-text">Together</span>
-          </h2>
-          <p className="text-lg text-foreground/55 max-w-2xl mx-auto">
-            Have a project in mind or want to discuss opportunities? I'd love to hear from you.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-5xl mx-auto">
-          {}
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
           <motion.div
-            className="lg:col-span-1"
-            variants={containerVariants}
+            className="flex flex-col gap-3 lg:col-span-5"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+            }}
           >
-            <motion.div variants={itemVariants} className="space-y-3">
-              {contactInfo.map(({ icon: Icon, label, value, href }) => {
-                const Wrapper = href ? 'a' : 'div';
-                return (
-                  <Wrapper
-                    key={label}
-                    {...(href ? { href, ...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {}) } : {})}
-                    className="flex gap-3.5 p-4 bg-card border border-border rounded-xl hover:border-primary/30 transition-all duration-300 group"
-                  >
-                    <div className="p-2.5 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all flex-shrink-0">
-                      <Icon size={20} />
+            {contactChannels.map((channel) => {
+              const Icon = channel.icon;
+              return (
+                <motion.div
+                  key={channel.label}
+                  className="surface-card flex items-center justify-between gap-3 p-4"
+                  variants={{
+                    hidden: { opacity: 0, y: 12 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+                  }}
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${channel.tile}`}>
+                      <Icon size={18} />
                     </div>
-                    <div>
-                      <p className="text-xs text-foreground/45 mb-0.5">{label}</p>
-                      <p className="font-medium text-sm">{value}</p>
+                    <div className="min-w-0">
+                      <span className="mono-label text-foreground/35">{channel.label}</span>
+                      {channel.href ? (
+                        <a
+                          href={channel.href}
+                          className="block truncate font-mono text-xs text-foreground transition-colors hover:text-primary"
+                        >
+                          {channel.value}
+                        </a>
+                      ) : (
+                        <span className="block truncate font-mono text-xs text-foreground">{channel.value}</span>
+                      )}
                     </div>
-                  </Wrapper>
-                );
-              })}
-            </motion.div>
+                  </div>
 
-            {}
-            <motion.div variants={itemVariants} className="mt-6 pt-6 border-t border-border">
-              <p className="text-xs text-foreground/45 mb-3 font-medium">Connect on social:</p>
+                  {channel.copyValue && (
+                    <button
+                      onClick={() => copyToClipboard(channel.copyValue!, channel.label)}
+                      className="shrink-0 rounded-lg bg-secondary p-2 text-foreground/40 transition-colors hover:bg-primary/10 hover:text-primary"
+                      aria-label={`Copy ${channel.label.toLowerCase()}`}
+                      title={`Copy ${channel.label.toLowerCase()}`}
+                    >
+                      {copied === channel.label ? <Check size={14} /> : <Copy size={14} />}
+                    </button>
+                  )}
+                </motion.div>
+              );
+            })}
+
+            <motion.div
+              className="surface-card flex flex-col gap-3 p-4"
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+              }}
+            >
+              <span className="mono-label text-foreground/35">Connect on social</span>
               <div className="flex flex-wrap gap-2">
-                {socialLinks.map(({ icon: Icon, label, href }) => (
+                {socialLinks.map(({ icon: Icon, label, href, accent }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3.5 py-2 bg-secondary hover:bg-primary hover:text-primary-foreground rounded-xl transition-all duration-300 text-sm font-medium text-foreground/60"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-secondary px-3 py-1.5 font-mono text-xs text-foreground/65 transition-colors hover:bg-secondary/70 hover:text-foreground"
                   >
-                    <Icon size={16} className="shrink-0" />
-                    <span className="whitespace-nowrap">{label}</span>
-                    <ArrowUpRight size={12} className="opacity-50 shrink-0" />
+                    <Icon size={14} className={accent} />
+                    {label}
+                    <ArrowUpRight size={11} className="text-foreground/25" />
                   </a>
                 ))}
               </div>
             </motion.div>
+
+            <motion.div
+              className="flex items-center gap-2 px-1 pt-1 text-xs text-foreground/40"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { duration: 0.4 } },
+              }}
+            >
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent-emerald opacity-70" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent-emerald" />
+              </span>
+              Usually replies within 24 hours
+            </motion.div>
           </motion.div>
 
-          {}
           <motion.form
             onSubmit={handleSubmit}
-            className="lg:col-span-2 bg-card border border-border rounded-2xl p-6 md:p-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            className="surface-card p-5 md:p-7 lg:col-span-7"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
             viewport={{ once: true }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-              <motion.div variants={itemVariants}>
-                <label htmlFor="contact-name" className="block text-xs font-medium mb-1.5 text-foreground/70">Name</label>
+            <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="contact-name" className="mono-label mb-1.5 block text-foreground/40">
+                  Your name
+                </label>
                 <Input
-                  id="contact-name" type="text" name="name" autoComplete="name"
-                  value={formData.name} onChange={handleChange} placeholder="Your name"
-                  className={`bg-secondary/50 border-border ${errors.name ? 'border-red-500' : ''}`}
+                  id="contact-name"
+                  type="text"
+                  name="name"
+                  autoComplete="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  className={`border-border bg-background ${errors.name ? 'border-destructive' : ''}`}
                 />
                 {errors.name && (
-                  <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                    <AlertCircle size={12} /> {errors.name}
+                  <p className="mt-1 flex items-center gap-1 text-xs text-destructive">
+                    <AlertCircle size={11} /> {errors.name}
                   </p>
                 )}
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
-                <label htmlFor="contact-email" className="block text-xs font-medium mb-1.5 text-foreground/70">Email</label>
+              <div>
+                <label htmlFor="contact-email" className="mono-label mb-1.5 block text-foreground/40">
+                  Your email
+                </label>
                 <Input
-                  id="contact-email" type="email" name="email" autoComplete="email"
-                  value={formData.email} onChange={handleChange} placeholder="your@email.com"
-                  className={`bg-secondary/50 border-border ${errors.email ? 'border-red-500' : ''}`}
+                  id="contact-email"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="john@enterprise.com"
+                  className={`border-border bg-background ${errors.email ? 'border-destructive' : ''}`}
                 />
                 {errors.email && (
-                  <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                    <AlertCircle size={12} /> {errors.email}
+                  <p className="mt-1 flex items-center gap-1 text-xs text-destructive">
+                    <AlertCircle size={11} /> {errors.email}
                   </p>
                 )}
-              </motion.div>
+              </div>
             </div>
 
-            <motion.div variants={itemVariants} className="mb-5">
-              <label htmlFor="contact-subject" className="block text-xs font-medium mb-1.5 text-foreground/70">Subject</label>
+            <div className="mb-4">
+              <label htmlFor="contact-subject" className="mono-label mb-1.5 block text-foreground/40">
+                Subject
+              </label>
               <Input
-                id="contact-subject" type="text" name="subject" autoComplete="off"
-                value={formData.subject} onChange={handleChange} placeholder="What is this about?"
-                className={`bg-secondary/50 border-border ${errors.subject ? 'border-red-500' : ''}`}
+                id="contact-subject"
+                type="text"
+                name="subject"
+                autoComplete="off"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Architecture lead role / full-stack project"
+                className={`border-border bg-background ${errors.subject ? 'border-destructive' : ''}`}
               />
               {errors.subject && (
-                <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                  <AlertCircle size={12} /> {errors.subject}
+                <p className="mt-1 flex items-center gap-1 text-xs text-destructive">
+                  <AlertCircle size={11} /> {errors.subject}
                 </p>
               )}
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemVariants} className="mb-5">
-              <label htmlFor="contact-message" className="block text-xs font-medium mb-1.5 text-foreground/70">
-                Message <span className="text-foreground/30">({formData.message.length}/5000)</span>
+            <div className="mb-5">
+              <label htmlFor="contact-message" className="mono-label mb-1.5 flex items-center justify-between text-foreground/40">
+                <span>Message</span>
+                <span className="normal-case tracking-normal text-foreground/25">{formData.message.length}/5000</span>
               </label>
               <Textarea
-                id="contact-message" name="message" autoComplete="off"
-                value={formData.message} onChange={handleChange}
-                placeholder="Your message here..." rows={5}
-                className={`bg-secondary/50 border-border resize-none ${errors.message ? 'border-red-500' : ''}`}
+                id="contact-message"
+                name="message"
+                autoComplete="off"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Describe your architecture requirements, timeline, or engineering opportunity..."
+                rows={5}
+                className={`resize-none border-border bg-background ${errors.message ? 'border-destructive' : ''}`}
               />
               {errors.message && (
-                <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                  <AlertCircle size={12} /> {errors.message}
+                <p className="mt-1 flex items-center gap-1 text-xs text-destructive">
+                  <AlertCircle size={11} /> {errors.message}
                 </p>
               )}
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemVariants}>
-              <Button
-                type="submit"
-                disabled={isSubmitting || sendMessage.isPending}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/25 transition-all duration-300"
-              >
-                {isSubmitting || sendMessage.isPending ? (
-                  <>
-                    <span className="animate-spin mr-2">⏳</span>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} className="mr-2" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </motion.div>
+            <button
+              type="submit"
+              disabled={isSending}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary to-accent-emerald px-5 py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSending ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send size={16} />
+                  Send message
+                </>
+              )}
+            </button>
           </motion.form>
         </div>
       </div>

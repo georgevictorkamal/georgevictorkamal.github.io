@@ -110,12 +110,11 @@ Architecture: Clean Architecture, MVVM, Repository Pattern, Factory Pattern, OOP
 Testing: Unit Testing, Integration Testing, Moq, Postman
 
 KEY IMPACT METRICS (cite these precisely when relevant)
-• 40% reduction in API response times via Redis caching and microservice refactoring
-• 70% fewer deployment incidents after end-to-end CI/CD implementation
-• 10,000+ daily active users across enterprise platforms
-• 200+ monthly tenders processed on the Tender Management Platform
-• 95% elimination of manual errors through automation
+• 40% reduction in API response times via Redis caching, query optimization, and microservice refactoring
 • 25% reduction in processing times
+• 70% fewer deployment incidents after end-to-end CI/CD implementation
+• 10,000+ users served across enterprise platforms, including 10,000+ donors on the Grifols DonorHUB
+• 200+ monthly tenders processed on the Tender Management Platform
 • 7 enterprise Power Platform workflows automated
 • 50+ facilities covered by automated fire safety compliance
 • 99.9% system uptime

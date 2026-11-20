@@ -107,4 +107,4 @@ d:/george_portfolio/
 ---
 
 **Crafted with 🧠 and 💻 by George Victor Kamal**
-*Full Stack Software Engineer | Microsoft Certified Azure AI Engineer*
+*Senior Full-Stack Software Engineer | Microsoft Certified Azure AI Engineer*
