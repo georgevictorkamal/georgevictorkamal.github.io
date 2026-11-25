@@ -1,0 +1,41 @@
+<svg width="800" height="420" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" fill="#1A1000"/>
+  <!-- Subtle grid -->
+  <line x1="0" y1="60" x2="800" y2="60" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="120" x2="800" y2="120" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="180" x2="800" y2="180" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="240" x2="800" y2="240" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="0" y1="360" x2="800" y2="360" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="100" y1="0" x2="100" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="200" y1="0" x2="200" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="300" y1="0" x2="300" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="400" y1="0" x2="400" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="500" y1="0" x2="500" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="600" y1="0" x2="600" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <line x1="700" y1="0" x2="700" y2="420" stroke="#ffffff" stroke-width="0.3" opacity="0.05"/>
+  <!-- Accent circle bg -->
+  <circle cx="580" cy="210" r="260" fill="#EF9F27" opacity="0.06"/>
+  <circle cx="580" cy="210" r="180" fill="#EF9F27" opacity="0.06"/>
+  <circle cx="580" cy="210" r="100" fill="#EF9F27" opacity="0.08"/>
+  <!-- Icon circle -->
+  <circle cx="580" cy="210" r="72" fill="#EF9F27" opacity="0.15"/>
+  <circle cx="580" cy="210" r="60" fill="#EF9F27" opacity="0.2"/>
+  <!-- Icon (scaled and centered at 580,210) -->
+  <g transform="translate(556,186) scale(2)">
+    <path d="M6.5 10h-2v5h2v-5zm4 0h-2v5h2v-5zm8.5 7H4v1.5c0 .83.67 1.5 1.5 1.5h13c.83 0 1.5-.67 1.5-1.5V17zm-4-7h-2v5h2v-5zM19.5 5l-1-4h-13l-1 4H1v2h1.06L3 19h18l.94-12H23V5h-3.5zm-2.04 0H6.54l.63-2.5h9.66l.63 2.5z" fill="#EF9F27"/>
+  </g>
+  <!-- Accent left bar -->
+  <rect x="0" y="0" width="5" height="420" fill="#EF9F27"/>
+  <!-- Category pill -->
+  <rect x="52" y="60" width="152" height="28" rx="14" fill="#EF9F27" opacity="0.18"/>
+  <text x="128" y="79" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" fill="#EF9F27" text-anchor="middle" font-weight="600">Mobile · Fintech</text>
+  <!-- Title -->
+  <text x="52" y="145" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="36" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Smart Parking System</text>
+  <!-- Metric -->
+  <rect x="52" y="170" width="141" height="30" rx="8" fill="#1D9E75" opacity="0.2"/>
+  <text x="122.5" y="191" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13" fill="#1D9E75" text-anchor="middle" font-weight="600">✓ iOS & Android</text>
+  <!-- Bottom bar -->
+  <rect x="0" y="395" width="800" height="25" fill="#EF9F27" opacity="0.12"/>
+  <text x="52" y="412" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" fill="#EF9F27" opacity="0.8">georgevictorkamal.github.io</text>
+</svg>
