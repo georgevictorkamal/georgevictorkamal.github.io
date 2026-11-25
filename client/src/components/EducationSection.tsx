@@ -209,10 +209,12 @@ export default function EducationSection() {
 
                       <div className="flex items-center justify-between gap-2 font-mono text-[10px] text-foreground/40">
                         <span className="truncate">{cert.issuer}</span>
-                        <span className={`shrink-0 ${accent}`}>
-                          {formatDate(cert.issuedDate)}
+                        <span className={`shrink-0 text-right leading-tight ${accent}`}>
+                          <span className="block">{formatDate(cert.issuedDate)}</span>
                           {credentialExpiry[cert.name] && (
-                            <span className="text-foreground/30"> · Exp. {credentialExpiry[cert.name]}</span>
+                            <span className="block text-[9px] text-foreground/30">
+                              Exp. {credentialExpiry[cert.name]}
+                            </span>
                           )}
                         </span>
                       </div>
