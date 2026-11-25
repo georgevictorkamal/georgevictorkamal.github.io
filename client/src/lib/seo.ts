@@ -14,7 +14,7 @@ export function updateMetaTags({
   title,
   description,
   keywords = "",
-  image = "https://georgevictorkamal.github.io/profile.png",
+  image = "https://georgevictorkamal.github.io/og-image.png",
   url = "https://georgevictorkamal.github.io",
   type = "website",
 }: MetaTagProps): void {
